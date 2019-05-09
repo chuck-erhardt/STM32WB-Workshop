@@ -1,0 +1,129 @@
+#define @ line# 100 of app_conf.h
+--------------------------------------------------------------------------------------------
+
+#define GATT_CLIENT         0    /* 1 = Device is GATT Client, 0 = Device is GATT Server */
+
+
+
+
+
+Modify your local name  (line# 204 of app_ble.c) 
+--------------------------------------------------------------------------------------------
+
+static const char local_name[] = { AD_TYPE_COMPLETE_LOCAL_NAME, 'C', 'R', 'S', '0', '1' };
+
+
+
+
+
+Modify your BLE device name (line# 819 of app_ble.c)
+--------------------------------------------------------------------------------------------
+
+const char *name = “BLE-CRS";
+
+
+
+
+
+Add the UUID definition (line# 74 of ble_conf.h) 
+--------------------------------------------------------------------------------------------
+#define STM_LED_UUDI128    0x00, 0x00, 0xfe, 0x64, 0x8e, 0x22, 0x45, 0x41, 0x9d, 0x4c, 0x21, 0xed, 0xae, 0x82, 0xed, 0x19   
+
+
+
+
+
+Add event element (line# 37 of crs_stm.h)
+--------------------------------------------------------------------------------------------
+typedef enum {
+   STM_LED_WRITE_EVT,
+   CRS_NOTIFY_ENABLED_EVT,
+…
+} CRS_Opcode_evt_t;
+
+
+
+
+
+Add characteristic handle  (line# 32 of crs_stm.c) 
+--------------------------------------------------------------------------------------------
+
+typdef struct {
+  …
+  uint16_t CRSRXCharHdle; 
+  uint16_t LedWriteClientToServerCharHdle;
+} CRSContext_t;
+
+Check for the handle  (line# 122 of crs_stm.c)
+case EVT_BLUE_GATT_ATTRIBUTE_MODIFIED:
+{
+  attribute_modified = (aci_gatt_attribute_modified_event_rp0*)blue_evt->data;              
+  if(attribute_modified->Attr_Handle == (CRSContext.LedWriteClientToServerCharHdle + 1))
+  {
+    Notification.CRS_Evt_Opcode = STM_LED_WRITE_EVT;
+    Notification.DataTransfered.Length = attribute_modified->Attr_Data_Length;
+    Notification.DataTransfered.pPayload = attribute_modified->Attr_Data;
+    CRSAPP_Notification(&Notification);        
+  }
+
+
+
+
+
+Add uuid array  (line# 193 of crs_stm.c) 
+--------------------------------------------------------------------------------------------
+
+uint8_t led_uuid[]     = { STM_LED_UUDI128 }; 
+
+
+
+
+
+Change the Max_Attribute_Records parameter  (line# 215 of crs_stm.c)
+--------------------------------------------------------------------------------------------
+
+hciCmdResult = aci_gatt_add_service(
+				UUID_TYPE_128,
+				(Service_UUID_t *) &uuid,
+				PRIMARY_SERVICE,
+				8,   
+				&(CRSContext.SvcHdle));
+
+
+
+
+Add LED characteristic (line# 281 of crs_stm.c) 
+--------------------------------------------------------------------------------------------
+
+COPY_CRS_UUID(uuid.Char_UUID_128, led_uuid); 
+hciCmdResult = aci_gatt_add_char(CRSContext.SvcHdle,
+                                 UUID_TYPE_128, 
+				  &uuid,
+				  2,   /* Char_Value_Length */                             
+				  CHAR_PROP_WRITE_WITHOUT_RESP, 
+				  ATTR_PERMISSION_NONE,
+				  GATT_NOTIFY_ATTRIBUTE_WRITE,/* gattEvtMask*/
+				  10, /* encryKeySize */
+				  1,  /* isVariable */
+ 				  &(CRSContext.LedWriteClientToServerCharHdle)); 
+
+
+
+
+
+Add event action (line# 194 of crs_app.c) 
+--------------------------------------------------------------------------------------------
+
+case STM_LED_WRITE_EVT: 
+      if(pNotification->DataTransfered.pPayload[0] == 0x01)
+      {
+        BSP_LED_On(LED_BLUE);
+      }
+      if(pNotification->DataTransfered.pPayload[0] == 0x00)
+      {
+        BSP_LED_Off(LED_BLUE);
+      }
+	 break;
+
+
+

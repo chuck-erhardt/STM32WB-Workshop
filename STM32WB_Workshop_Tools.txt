@@ -1,0 +1,56 @@
+STM32WB Workshop Tool Validator v1.01
+Log file created on: May-07-2019 @ 10:29:54 PM
+
+
+System Manufacturer: Dell Inc.
+System Model: Inspiron 5559
+Windows Operating System: 10.0.17134
+System Architecture: x64-based PC
+ 
+
+JAVA: OK
+   Minimum Version Required: 1.8
+   Installed Version: 1.8
+   Registry Path: HKLM64\SOFTWARE\JavaSoft\Java Runtime Environment
+
+STM32CubeMX: OK
+   Minimum Version Required: 5.1.0
+   Installed Version: 5.2.0
+   Installation Path: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\STM32CubeMX.exe
+   Registry Path: HKLM64\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\STM32CubeMX
+
+STM32Cube Programmer: OK
+   Minimum Version Required: 2.0.0
+   Installed Version: 2.1.0
+   Installation Path: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\util\STM32CubeProgrammer.ico
+   Registry Path: HKLM64\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\STM32CubeProgrammer 2.1.0
+
+STM32CubeMon-RF: OK
+   Minimum Version Required: 2.3.0
+   Installed Version: 2.3.0
+   Installation Path: C:\Program Files (x86)\STMicroelectronics\STM32CubeMonitor-RF\STM32CubeMonitor-RF.exe
+   Registry Path: HKLM64\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{3202DB6F-11DD-493D-9F91-C4EF5A8CF535}_is1
+
+TeraTerm: OK
+   Installation Path: C:\Program Files (x86)\teraterm\
+   Registry Path: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Tera Term_is1
+
+IAR: NOT INSTALLED
+   Minimum Version Required: 8.32.3
+   Installed Version: N/A
+   Installation Path: N/A
+   Registry Path: N/A
+
+STM32Cube WB HAL: OK
+   Minimum Version Required: 1.0.0
+   Installed Version: 1.1.0
+   Installation Path: C:\Users\chuck\STM32Cube\Repository\STM32Cube_FW_WB_V1.1.0\
+   Expected Path: C:\Users\chuck\STM32Cube\Repository\STM32Cube_FW_WB_Vn.n.n\
+
+Legacy ST DfuSe Driver: NOT PRESENT
+   OEM INF Tag: N/A
+
+ST Driver Collection: 
+    Bridge Driver: PRESENT
+    Debug Driver: PRESENT
+    VCP Driver: PRESENT
